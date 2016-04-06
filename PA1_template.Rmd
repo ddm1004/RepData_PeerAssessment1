@@ -24,7 +24,16 @@ print(paste("Interval of Most activity: ", names(mean.per.interval[max(mean.per.
 
 
 ## Imputing missing values
-
+print(paste("Number of missing values",sum(is.`na(activity$steps))))
+# Replace NAs with mean for that interval
+activity2 <- activity
+activity2$steps[is.na(activity2$steps)] <- mean.per.interval[activity2.interval[is.na(activity2$steps)]]
+total.steps.per.day2 <- with(activity2, tapply(steps, date, sum))
+hist(total.steps.per.day2)
+print(paste("Mean: ", mean(total.steps.per.day)))
+print(paste("Median: ", median(total.steps.per.day)))
+print("Inserting the missing values changed the mean and the median")
+print("Both the Mean and the Median increased with inserted missing values")
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
