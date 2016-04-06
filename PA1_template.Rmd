@@ -7,15 +7,20 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
+if (!file.exists("activity.csv")) unzip("activity.zip")
+activity <- read.csv("activity.csv")
+activity$interval <- as.factor(activity$interval)
 
 ## What is mean total number of steps taken per day?
-
-
+total.steps.per.day <- with(activity, tapply(steps, date, sum, na.rm=TRUE)
+hist(total.steps.per.day)
+print(paste("Mean: ",mean(total.steps.per.day)))
+print(paste("Median: ",median(total.steps.per.day)))
 
 ## What is the average daily activity pattern?
-
+mean.per.interval <- with(activity, tapply(steps, interval, mean, na.rm=TRUE))
+plot(names(mean.per.interval), mean.per.interval, type="l")
+print(paste("Interval of Most activity: ", names(mean.per.interval[max(mean.per.interval)])))
 
 
 ## Imputing missing values
