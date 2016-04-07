@@ -49,7 +49,6 @@ weekend <- c("Saturday","Sunday")
 activity2$weekday <- factor(weekdays(activity2$date2)%in%weekend,
                             levels=c(TRUE,FALSE), 
                             labels=c("weekend","weekday"))
-par(mfrow=c(1,2))
 ```
 # Get weeday average per interval
 ```{r Code Chunk 7, echo=TRUE}
@@ -57,10 +56,6 @@ weekday.mean.per.interval <- with(activity2[activity2$weekday=="weekday",],
                                             tapply(steps, 
                                                    interval, 
                                                    mean))
-plot(names(weekday.mean.per.interval), 
-     weekday.mean.per.interval, 
-     type="l",
-     xlab="Weekday Mean Per Interval")
 ```
 # Get weekend average per interval
 ```{r Code Chunk 8, echo=TRUE}
@@ -68,6 +63,11 @@ weekend.mean.per.interval <- with(activity2[activity2$weekday=="weekend",],
                                             tapply(steps, 
                                                    interval, 
                                                    mean))
+par(mfrow=c(1,2))
+plot(names(weekday.mean.per.interval), 
+     weekday.mean.per.interval, 
+     type="l",
+     xlab="Weekday Mean Per Interval")
 plot(names(weekend.mean.per.interval), 
      weekend.mean.per.interval, 
      type="l",
