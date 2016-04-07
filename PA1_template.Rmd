@@ -2,38 +2,74 @@
 title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
-    keep_md: true
+    keep_md: false
+    
 ---
 
 
 ## Loading and preprocessing the data
+```{r Code Chunk 1, echo=TRUE}
 if (!file.exists("activity.csv")) unzip("activity.zip")
 activity <- read.csv("activity.csv")
 activity$interval <- as.factor(activity$interval)
-
+activity$date2 <- as.Date(activity$date)
+```
 ## What is mean total number of steps taken per day?
-total.steps.per.day <- with(activity, tapply(steps, date, sum, na.rm=TRUE)
+```{r Code Chunk 2, echo=TRUE}
+total.steps.per.day <- with(activity, tapply(steps, date, sum, na.rm=TRUE))
 hist(total.steps.per.day)
 print(paste("Mean: ",mean(total.steps.per.day)))
 print(paste("Median: ",median(total.steps.per.day)))
-
+```
 ## What is the average daily activity pattern?
+```{r Code Chunk 3, echo=TRUE}
 mean.per.interval <- with(activity, tapply(steps, interval, mean, na.rm=TRUE))
 plot(names(mean.per.interval), mean.per.interval, type="l")
 print(paste("Interval of Most activity: ", names(mean.per.interval[max(mean.per.interval)])))
-
-
+```
 ## Imputing missing values
-print(paste("Number of missing values",sum(is.`na(activity$steps))))
+```{r Code Chunk 4, echo=TRUE}
+print(paste("Number of missing values",sum(is.na(activity$steps))))
+```
 # Replace NAs with mean for that interval
+```{r Code Chunk 5, echo=TRUE}
 activity2 <- activity
-activity2$steps[is.na(activity2$steps)] <- mean.per.interval[activity2.interval[is.na(activity2$steps)]]
+activity2$steps[is.na(activity2$steps)] <- mean.per.interval[activity2$interval[is.na(activity2$steps)]]
 total.steps.per.day2 <- with(activity2, tapply(steps, date, sum))
 hist(total.steps.per.day2)
 print(paste("Mean: ", mean(total.steps.per.day)))
 print(paste("Median: ", median(total.steps.per.day)))
 print("Inserting the missing values changed the mean and the median")
 print("Both the Mean and the Median increased with inserted missing values")
-
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r Code Chunk 6, echo=TRUE}
+weekend <- c("Saturday","Sunday")
+activity2$weekday <- factor(weekdays(activity2$date2)%in%weekend,
+                            levels=c(TRUE,FALSE), 
+                            labels=c("weekend","weekday"))
+par(mfrow=c(1,2))
+```
+# Get weeday average per interval
+```{r Code Chunk 7, echo=TRUE}
+weekday.mean.per.interval <- with(activity2[activity2$weekday=="weekday",],
+                                            tapply(steps, 
+                                                   interval, 
+                                                   mean))
+plot(names(weekday.mean.per.interval), 
+     weekday.mean.per.interval, 
+     type="l",
+     xlab="Weekday Mean Per Interval")
+```
+# Get weekend average per interval
+```{r Code Chunk 8, echo=TRUE}
+weekend.mean.per.interval <- with(activity2[activity2$weekday=="weekend",], 
+                                            tapply(steps, 
+                                                   interval, 
+                                                   mean))
+plot(names(weekend.mean.per.interval), 
+     weekend.mean.per.interval, 
+     type="l",
+     xlab="Weekend Mean Per Interval")
+```
