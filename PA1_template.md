@@ -16,7 +16,7 @@ total.steps.per.day <- with(activity, tapply(steps, date, sum, na.rm=TRUE))
 hist(total.steps.per.day)
 ```
 
-![](PA1_template_files/figure-html/Code Chunk 2-1.png)
+![](PA1_template_files/figure/Code Chunk 2-1.png)
 
 ```r
 print(paste("Mean: ",mean(total.steps.per.day)))
@@ -40,7 +40,7 @@ mean.per.interval <- with(activity, tapply(steps, interval, mean, na.rm=TRUE))
 plot(names(mean.per.interval), mean.per.interval, type="l")
 ```
 
-![](PA1_template_files/figure-html/Code Chunk 3-1.png)
+![](PA1_template_files/figure/Code Chunk 3-1.png)
 
 ```r
 print(paste("Interval of Most activity: ", names(mean.per.interval[max(mean.per.interval)])))
@@ -67,7 +67,7 @@ total.steps.per.day2 <- with(activity2, tapply(steps, date, sum))
 hist(total.steps.per.day2)
 ```
 
-![](PA1_template_files/figure-html/Code Chunk 5-1.png)
+![](PA1_template_files/figure/Code Chunk 5-1.png)
 
 ```r
 print(paste("Mean: ", mean(total.steps.per.day)))
@@ -123,7 +123,7 @@ plot(names(weekday.mean.per.interval),
      xlab="Weekday Mean Per Interval")
 ```
 
-![](PA1_template_files/figure-html/Code Chunk 7-1.png)
+![](PA1_template_files/figure/Code Chunk 7-1.png)
 # Get weekend average per interval
 
 ```r
@@ -137,4 +137,4 @@ plot(names(weekend.mean.per.interval),
      xlab="Weekend Mean Per Interval")
 ```
 
-![](PA1_template_files/figure-html/Code Chunk 8-1.png)
+![](PA1_template_files/figure/Code Chunk 8-1.png)
